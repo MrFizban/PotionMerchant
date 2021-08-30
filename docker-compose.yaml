@@ -1,0 +1,28 @@
+version: '3'
+services: 
+  PotionCatalog:
+    build: .
+    ports: 
+      - 8081:80
+    container_name: PotionCatalog
+    entrypoint: 
+      - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+      - MONGO_INITDB_ROOT_PASSWORD=Pass
+    networks: 
+      - potion-network
+  PotionMongo:
+    image: mongo
+    container_name: PotionMongo
+    ports: 
+      - 27017:27017
+    volumes: 
+      - "mongobdata:/data/db"
+    environment: 
+      - MongoDbSettings:Host=PotionMongo
+      - MongoDbSettings:Password=Pass
+    networks: 
+      - potion-network
+
+networks: 
+  potion-network:
+    driver: my-driver-1
