@@ -1,28 +1,36 @@
 version: '3'
 services: 
-  PotionCatalog:
-    build: .
+  potion-catalog:
+    build: ./Wharehouse
     ports: 
       - 8081:80
-    container_name: PotionCatalog
-    entrypoint: 
-      - MONGO_INITDB_ROOT_USERNAME=mongoadmin
-      - MONGO_INITDB_ROOT_PASSWORD=Pass
-    networks: 
-      - potion-network
-  PotionMongo:
-    image: mongo
-    container_name: PotionMongo
-    ports: 
-      - 27017:27017
-    volumes: 
-      - "mongobdata:/data/db"
-    environment: 
-      - MongoDbSettings:Host=PotionMongo
+    container_name: potion-catalog
+    environment:
+      - MongoDbSettings:Host=potion-mongo
+      - MongoDbSettings:Port=27017
+      - MongoDbSettings:User=mongoadmin
       - MongoDbSettings:Password=Pass
     networks: 
       - potion-network
+  potion-mongo:
+    image: mongo
+    container_name: potion-mongo
+    ports: 
+      - 27017:27017
+    volumes: 
+      - mongobdatapotion:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME:mongoadmin
+      - MONGO_INITDB_ROOT_PASSWORD:Pass
+    networks: 
+      - potion-network
 
-networks: 
+networks:
   potion-network:
-    driver: my-driver-1
+    external: 
+      name: potionnetwork
+
+volumes:
+  mongobdatapotion:
+    driver: local
+    
