@@ -13,6 +13,6 @@ namespace PotionMerchant.Entity
         public string weight { get; set; }
         public string quantity { get; set; }
         public CubeSize size { get; set; }
-       // public Recipe recipe { get; set; }
+        public Recipe recipe { get; set; }
     }
 }

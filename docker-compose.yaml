@@ -6,25 +6,17 @@ services:
       - 8081:80
     container_name: potion-catalog
     environment:
-      - MongoDbSettings:Host=potion-mongo
-      - MongoDbSettings:Port=27017
       - MongoDbSettings:User=mongoadmin
       - MongoDbSettings:Password=Pass
     networks: 
       - potion-network
-  potion-mongo:
-    image: mongo
-    container_name: potion-mongo
-    ports: 
-      - 27017:27017
-    volumes: 
-      - mongobdatapotion:/data/db
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME:mongoadmin
-      - MONGO_INITDB_ROOT_PASSWORD:Pass
-    networks: 
+  sqlserver:
+    image: mrfizban/msqlserver:latest
+    container_name: PotionSqlServer
+    ports:
+      - 1434:1433
+    networks:
       - potion-network
-
 networks:
   potion-network:
     external: 
